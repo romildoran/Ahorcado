@@ -22,6 +22,61 @@ document.addEventListener("DOMContentLoaded", function () {
     let mistakes;
     let hits;
 
+    const wrongLetter = () => {
+        addBodyPart(bodyParts[mistakes]);
+    };
+
+    const endGame = () => {
+        document.removeEventListener("keydown", letterEvent);
+        startButton.style.display = "block";
+    };
+
+    const correctLetter = letter => {
+        const { children } = wordContainer;
+
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].innerHTML === letter) {
+                children[i].classList.remove("hidden");
+                hits++;
+            }
+        }
+
+        if (hits === selectedWord.length) endGame();
+    };
+
+    const letterInput = letter => {
+        if (selectedWord.includes(letter)) {
+            correctLetter(letter); // Pasa la letra como argumento
+        } else {
+            wrongLetter();
+        }
+    };
+
+    const letterEvent = event => {
+        let newLetter = event.key.toUpperCase();
+
+        if (newLetter.match(/^[a-zñ]$/i) && !usedLetters.includes(newLetter)) {
+            letterInput(newLetter);
+        };
+    };
+
+    const drawWord = () => {
+        selectedWord.forEach(letter => {
+            const letterElement = document.createElement("span");
+
+            letterElement.innerHTML = letter.toUpperCase();
+            letterElement.classList.add("letter");
+            letterElement.classList.add("hidden");
+
+            wordContainer.appendChild(letterElement);
+        });
+    };
+
+    const selectedRadomWord = () => {
+        let word = words[Math.floor((Math.random() * words.length))].toUpperCase();
+        selectedWord = word.split("");
+    };
+
     const drawHangMan = () => {
         ctx.canvas.width = 120;
         ctx.canvas.height = 160;
@@ -44,6 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
         startButton.style.display = "none";
 
         drawHangMan();
+
+        selectedRadomWord();
+
+        drawWord();
+
+        document.addEventListener("keydown", letterEvent);
     };
 
     startButton.addEventListener("click", startGame);

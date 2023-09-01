@@ -1,0 +1,13 @@
+body{
+    background-color: #4a4063;
+    color: #fff;
+    font-family: 'SF Pixelate', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden{
+    color: transparent;
+}
