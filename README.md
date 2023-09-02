@@ -1,5 +1,3 @@
-¡Claro! Entenderemos este código paso a paso como si estuviéramos en una clase de programación.
-
 **Archivo script.js:**
 
 1. **DOMContentLoaded**: La función pasada a `document.addEventListener("DOMContentLoaded", function () { ... });` se ejecuta cuando todo el contenido HTML se ha cargado en el navegador. Es un buen lugar para iniciar el juego.
