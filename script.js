@@ -23,6 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let mistakes;
     let hits;
 
+    //funciones para mensajes
+    const showWinMessage = () => {
+        alert("¡Ganaste! :)");
+    };
+
+    const showLoseMessage = () => {
+        alert("Perdiste :(");
+    };
+
+
     const addLetter = letter => {
         const letterElement = document.createElement("span");
         letterElement.innerHTML = letter.toUpperCase();
@@ -34,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillRect(...bodyPart);
         mistakes++;
 
-        if(mistakes === bodyParts.length) endGame();
+        if (mistakes === bodyParts.length) endGame();
     };
 
 
@@ -45,6 +55,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const endGame = () => {
         document.removeEventListener("keydown", letterEvent);
         startButton.style.display = "block";
+
+        //booleano que comprueba si acerto o fallo todas las letras para disparar los mensajes.
+        if (hits === selectedWord.length) {
+            showWinMessage();
+        } else {
+            showLoseMessage();
+        }
     };
 
     const correctLetter = letter => {
