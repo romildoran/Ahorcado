@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const bodyParts = [
         [4, 2, 1, 1],
-        [4, 3, 2, 1],
+        [4, 3, 1, 2],
         [3, 5, 1, 1],
         [5, 5, 1, 1],
+        [3, 3, 1, 1],
         [5, 3, 1, 1],
     ];
 
@@ -21,6 +22,21 @@ document.addEventListener("DOMContentLoaded", function () {
     let usedLetters;
     let mistakes;
     let hits;
+
+    const addLetter = letter => {
+        const letterElement = document.createElement("span");
+        letterElement.innerHTML = letter.toUpperCase();
+        usedLettersElement.appendChild(letterElement);
+    };
+
+    const addBodyPart = bodyPart => {
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(...bodyPart);
+        mistakes++;
+
+        if(mistakes === bodyParts.length) endGame();
+    };
+
 
     const wrongLetter = () => {
         addBodyPart(bodyParts[mistakes]);
@@ -50,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             wrongLetter();
         }
+        addLetter(letter);
+        usedLetters.push(letter);
     };
 
     const letterEvent = event => {
@@ -61,12 +79,16 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const drawWord = () => {
-        selectedWord.forEach(letter => {
+        selectedWord.forEach((letter, index) => {
             const letterElement = document.createElement("span");
 
             letterElement.innerHTML = letter.toUpperCase();
             letterElement.classList.add("letter");
-            letterElement.classList.add("hidden");
+
+            //oculta la mitad de la palabra
+            if (index < selectedWord.length / 2) {
+                letterElement.classList.add("hidden");
+            }
 
             wordContainer.appendChild(letterElement);
         });
